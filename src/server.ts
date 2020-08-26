@@ -13,6 +13,11 @@ import * as morgan from 'morgan';
 import config from "./helpers/config";
 import requestInterscept from './middleware/Any';
 import {NotFoundMiddleware} from './middleware/ErrorHandle';
+// Import games service and setup the client
+console.log('[info] start obfuscating game source');
+import Games from './services/Games';
+new Games().setupGameClient();
+console.log('[info] end obfuscating game source');
 
 const rootDir = __dirname;
 let portToListenOn = config.port || process.env.PORT || 3000;
@@ -35,6 +40,7 @@ console.log('[info] listening on port',portToListenOn);
     componentsScan: [
         `${rootDir}/middleware/*.ts`
     ],
+    httpsPort: false,
 })
 export class Server {
     @Inject()

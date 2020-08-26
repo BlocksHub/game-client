@@ -10,6 +10,7 @@ interface IWebsiteConfig {
     baseUrl: {
         frontend: string;
         backend: string;
+        cdn: string;
     }
     port?: number;
     env?: string;
@@ -33,5 +34,6 @@ strictEqual(typeof config.backendAuthorization, 'string');
 strictEqual(typeof config.baseUrl, 'object');
 strictEqual(typeof config.baseUrl.frontend, 'string');
 strictEqual(typeof config.baseUrl.backend, 'string');
+strictEqual(typeof config.baseUrl.cdn, 'string');
 strictEqual(typeof config.encryptionKeys, 'object');
 strictEqual(typeof config.encryptionKeys.game, 'string');

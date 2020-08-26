@@ -18,9 +18,6 @@ export class GamesController extends base {
         res.redirect(302, 'https://www.blockshub.net/');
     }
 
-    /**
-     * Load Game Play Page
-     */
     @Get('/:gameId/play')
     @Summary('Load game play page')
     @Use(YesAuth)
@@ -65,9 +62,6 @@ export class GamesController extends base {
         return;
     }
 
-    /**
-     * Load Game Play Page Sandbox
-     */
     @Get('/:gameId/sandbox')
     @Summary('Load game play page sandbox')
     @Use(YesAuth)
@@ -101,10 +95,7 @@ export class GamesController extends base {
         }
         return ViewData;
     }
-    
-    /**
-     * Load Games Edit Page
-     */
+
     @Get('/:gameId/edit')
     @Summary('Game edit page')
     @Use(YesAuth)

@@ -1,6 +1,10 @@
 import errors from '../helpers/errors';
 import client from '../helpers/axios';
 import Axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as jsObfuscator from 'javascript-obfuscator';
+import * as cp from 'child_process';
 
 export interface IBaseOptions {
     cookie?: string;
@@ -26,6 +30,10 @@ export default class ServiceBase extends errors {
         this.clientOptions = customClientOptions;
         this.v1 = client('v1', this.clientOptions);
         this.v2 = client('v2', this.clientOptions);
+        this.fs = fs;
+        this.path = path;
+        this.jsObfuscator = jsObfuscator;
+        this.cp = cp;
     }
     /**
      * BlocksHub V1 API
@@ -35,4 +43,9 @@ export default class ServiceBase extends errors {
      * BlocksHub V2 API
      */
     public v2: AxiosInstance;
+
+    public fs: typeof fs;
+    public path: typeof path;
+    public jsObfuscator: typeof jsObfuscator;
+    public cp: typeof cp;
 }

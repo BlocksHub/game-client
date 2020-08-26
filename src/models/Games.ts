@@ -4,7 +4,7 @@ import crypto = require('crypto');
 import _ = require('lodash');
 import config from '../helpers/config';
 
-
+export const GAME_KEY: string = config.encryptionKeys.game;
 
 const allowedDomains = [] as string[];
 if (process.env.NODE_ENV === 'development') {
