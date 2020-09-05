@@ -7,12 +7,13 @@ const util = require("util");
 const randomBytes = util.promisify(crypto.randomBytes);
 const ts_httpexceptions_1 = require("ts-httpexceptions");
 const base_1 = require("../controllers/base");
+const config_1 = require("../helpers/config");
 exports.csp = {
     'form-action': `'self'`,
     'media-src': `'none'`,
     'frame-ancestors': `'self'`,
-    'img-src': `'self' data: https://cdn.blockshub.net/ https://hindigamerclub-game.ewr1.vultrobjects.com/ https://www.google-analytics.com/`,
-    'connect-src': `'self' ws://localhost:8080/ https://sentry.io/ https://ka-f.fontawesome.com/releases/v5.13.1/css/free.min.css https://api.blockshub.net https://www.blockshub.net`,
+    'img-src': `'self' https://assets.babylonjs.com/ blob: data: https://cdn.blockshub.net/ https://hindigamerclub-game.ewr1.vultrobjects.com/ https://www.google-analytics.com/`,
+    'connect-src': `'self' ws://localhost:8080/ https://sentry.io/ https://ka-f.fontawesome.com/releases/v5.13.1/css/free.min.css https://assets.babylonjs.com/ ${config_1.default.baseUrl.backend} ${config_1.default.baseUrl.cdn}`,
     'object-src': `'none'`,
     'base-uri': `'self'`,
 };
@@ -52,19 +53,9 @@ exports.generateCspWithNonce = async (req, res, next, randomBytesFunction = rand
         return next();
     }
     const nonceBuffer = await randomBytesFunction(48);
-    let nonce;
-    if (!nonceBuffer) {
-        const rand = (length, current = '') => {
-            current = current ? current : '';
-            return length ? rand(--length, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz".charAt(Math.floor(Math.random() * 60)) + current) : current;
-        };
-        nonce = rand(48);
-    }
-    else {
-        nonce = nonceBuffer.toString('base64');
-    }
+    let nonce = nonceBuffer.toString('base64');
     let headerString;
-    if (req.originalUrl.match(/\/game\/(\d+)\/sandbox/g)) {
+    if (req.originalUrl.match(/\/(\d+)\/sandbox/g)) {
         headerString = 'script-src \'nonce-' + nonce + '\' ' + "'unsafe-eval'; " + exports.getCspString();
     }
     else {
@@ -76,8 +67,8 @@ exports.generateCspWithNonce = async (req, res, next, randomBytesFunction = rand
     res.set({
         'Content-Security-Policy': headerString,
     });
-    res.locals.version =
-        res.locals.nonce = nonce;
+    res.locals.version = await randomBytesFunction(8);
+    res.locals.nonce = nonce;
     res.locals.javascript = exports.getJavascript(nonce, exports.version);
     next();
 };
@@ -134,4 +125,3 @@ exports.default = async (req, res, next) => {
     }
     next();
 };
-//# sourceMappingURL=Any.js.map

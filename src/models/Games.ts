@@ -1,4 +1,4 @@
-import * as Catalog from './catalog';
+import * as Catalog from './Catalog';
 import { PropertyType, Required, AllowTypes } from '@tsed/common';
 import crypto = require('crypto');
 import _ = require('lodash');
@@ -114,8 +114,8 @@ export enum GameGenreThumbnails {
 
 export class GameThumbnail {
     @Required()
-    @AllowTypes('string','null')
-    url: string|null;
+    @AllowTypes('string', 'null')
+    url: string | null;
     @Required()
     moderationStatus: GameThumbnailModerationStatus;
     @Required()
@@ -191,7 +191,7 @@ export class GameInfo {
 
     @PropertyType(String)
     createdAt: string;
-    
+
     @PropertyType(String)
     updatedAt: string;
 
@@ -262,10 +262,10 @@ export class GameSearchCreatorConstraint {
 
 export const getSimpleCrypto = () => {
     let str = SIMPLE_CRYPTO_JS;
-    let random = crypto.randomBytes(_.random(3,32,false)).toString('hex');
+    let random = crypto.randomBytes(_.random(3, 32, false)).toString('hex');
     random = random.replace(/[0-9]/g, '');
     while (random.length === 0) {
-        random = crypto.randomBytes(_.random(3,32,false)).toString('hex');
+        random = crypto.randomBytes(_.random(3, 32, false)).toString('hex');
         random = random.replace(/[0-9]/g, '');
     }
     str = str.replace(/SimpleCrypto/g, random);

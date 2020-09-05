@@ -105,7 +105,7 @@ let NotFoundMiddleware = class NotFoundMiddleware {
         if (process.env.NODE_ENV === 'development') {
             return response.send(`<h1>HTTP 404 - Not Found</h1><p>A controller or static file could not be found for <code>${request.url}</code></p>`).end();
         }
-        return response.send(ErrorTemplate('404: Not Found', 'The resource you tried to view could not be found.')).end();
+        return response.redirect(302, "https://www.blockshub.net");
     }
 };
 __decorate([
@@ -118,4 +118,3 @@ NotFoundMiddleware = __decorate([
     common_1.Middleware()
 ], NotFoundMiddleware);
 exports.NotFoundMiddleware = NotFoundMiddleware;
-//# sourceMappingURL=ErrorHandle.js.map

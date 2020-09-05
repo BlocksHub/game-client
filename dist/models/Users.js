@@ -74,4 +74,3 @@ exports.Info = Info;
 class AuthenticatedInfo {
 }
 exports.AuthenticatedInfo = AuthenticatedInfo;
-//# sourceMappingURL=Users.js.map

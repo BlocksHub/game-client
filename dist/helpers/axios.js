@@ -7,6 +7,7 @@ const client = axios_1.default.create({
 });
 exports.default = (version, configOptions = {}) => {
     configOptions.baseURL = config_1.default.baseUrl.backend + '/api/' + version + '/';
+    configOptions.headers = configOptions.headers || {};
+    configOptions.headers['server-authorization'] = config_1.default.backendAuthorization;
     return axios_1.default.create(configOptions);
 };
-//# sourceMappingURL=axios.js.map

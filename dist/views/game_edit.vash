@@ -1,4 +1,4 @@
-@html.extend('layouts/default', function(model) {
+@html.extend('layouts/banned', function(model) {
   @html.block('content', function(model) {
       <div id="gamedetails" style="display:none;" data-gameid="@model.page.gameInfo.gameId"></div>
             <div class="row">

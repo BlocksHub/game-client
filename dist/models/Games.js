@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SIMPLE_CRYPTO_JS = exports.getSimpleCrypto = exports.GameSearchCreatorConstraint = exports.GameServer = exports.GameServerPlayer = exports.GameSearchResult = exports.GameSearchResultEntry = exports.GameInfo = exports.Script = exports.Map = exports.GameThumbnail = exports.GameGenreThumbnails = exports.GameGenreDescriptions = exports.GameGenres = exports.GameSortOptions = exports.GameThumbnailModerationStatus = exports.GameClosed = exports.ScriptType = exports.GameState = exports.scriptOptions = exports.GAME_KEY = void 0;
-const Catalog = require("./catalog");
+const Catalog = require("./Catalog");
 const common_1 = require("@tsed/common");
 const crypto = require("crypto");
 const _ = require("lodash");
@@ -7332,4 +7332,3 @@ exports.default = SimpleCrypto;
  
 
 `;
-//# sourceMappingURL=Games.js.map

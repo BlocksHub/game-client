@@ -12,9 +12,13 @@ function request(url, method, body) {
         body=JSON.stringify(body);
     }
     return new Promise((resolve, reject) => {
+        let csrfRetry = 0;
         ajax($('#userdata').attr("data-csrf"));
         function ajax(csrf) {
             $.ajax({
+                xhrFields: {
+                    withCredentials: true
+                },
                 type: method,
                 data: body,
                 url: HTTPMeta.baseUrl+"/api/v1" + url,
@@ -38,8 +42,13 @@ function request(url, method, body) {
                     if (xhr.status === 200) {
                         resolve(xhr)
                     } else if (xhr.status === 403) { //Csrf Validation Failed
-                        $('#userdata').attr("data-csrf", xhr.getResponseHeader('X-CSRF-Token'));
-                        return ajax(xhr.getResponseHeader('X-CSRF-Token'));
+                        csrfRetry++;
+                        if (csrfRetry >= 10) {
+                            return reject('CSRF Retry count exhausted');
+                        }
+                        console.log('csrf',xhr.getResponseHeader('x-csrf-token'));
+                        $('#userdata').attr("data-csrf", xhr.getResponseHeader('x-csrf-token'));
+                        return ajax(xhr.getResponseHeader('x-csrf-token'));
                     } else {
                         if (!xhr.responseJSON) {
                             xhr.responseJSON = {};
@@ -82,7 +91,7 @@ function request(url, method, body) {
                 failure: function (err) {
                     if (!err.responseJSON) {
                         err.responseJSON = {};
-                        err.responseJSON.message = "An unknown error has ocurred.";
+                        err.responseJSON.message = "An unknown error has occurred.";
                     }
                     if (err.responseJSON && err.responseJSON.error && err.responseJSON.error.code) {
                         err.responseJSON.message = errorTransform(err.responseJSON.error.code);

@@ -48,7 +48,7 @@ let DevApiProxy = class DevApiProxy extends base_1.default {
             }
             headers[key] = val;
         }
-        if (result.headers['content-type'].match(/json/g)) {
+        if (result.headers['content-type'].match(/json/g) || result.headers['content-type'].match(/javascript/g) || result.headers['content-type'].match(/text/g)) {
             res.set(headers);
             res.status(result.status);
             res.send(result.data).end();
@@ -75,4 +75,3 @@ DevApiProxy = __decorate([
     common_1.Controller('/api/v1/')
 ], DevApiProxy);
 exports.DevApiProxy = DevApiProxy;
-//# sourceMappingURL=dev-api-proxy.js.map

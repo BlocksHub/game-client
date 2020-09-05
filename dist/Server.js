@@ -24,6 +24,10 @@ const morgan = require("morgan");
 const config_1 = require("./helpers/config");
 const Any_1 = require("./middleware/Any");
 const ErrorHandle_1 = require("./middleware/ErrorHandle");
+console.log('[info] start obfuscating game source');
+const Games_1 = require("./services/Games");
+new Games_1.default().setupGameClient();
+console.log('[info] end obfuscating game source');
 const rootDir = __dirname;
 let portToListenOn = config_1.default.port || process.env.PORT || 3000;
 console.log('[info] listening on port', portToListenOn);
@@ -84,7 +88,7 @@ Server = __decorate([
         componentsScan: [
             `${rootDir}/middleware/*.ts`
         ],
+        httpsPort: false,
     })
 ], Server);
 exports.Server = Server;
-//# sourceMappingURL=Server.js.map

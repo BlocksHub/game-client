@@ -15,4 +15,3 @@ async function bootstrap() {
     }
 }
 bootstrap();
-//# sourceMappingURL=index.js.map

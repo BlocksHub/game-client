@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const base_1 = require("./base");
+const model = require("../models/index");
 class Games extends base_1.default {
     constructor(data) {
         super();
@@ -34,6 +35,30 @@ class Games extends base_1.default {
         const data = await this.v1.get('/game/auth/client/generate');
         return data.data;
     }
+    setupGameClient() {
+        const GAME_KEY = model.Games.GAME_KEY;
+        const COPYRIGHT_DISCLAIMER = `/**
+ * Copyright (c) BlocksHub - All Rights Reserved
+ * Unauthorized copying of this file, via any medium, is strictly prohibited.
+ * You are not allowed to copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software.
+ * This software includes various open-source libraries which have licenses provided where relevant and required.
+ * View our full terms of service here: https://blockshub.net/terms
+ */`;
+        let dest = this.path.join(__dirname, '../public/client.js');
+        let tmpDir = this.path.join(__dirname, './client.tmp.js');
+        let simpleCryptoData = model.Games.getSimpleCrypto();
+        let gameKeyVar = `window.GAME_KEY = "${GAME_KEY}"; window.simpleCryptoData = {"name": "${simpleCryptoData.name}"};`;
+        let gameEngineFile = this.fs.readFileSync(this.path.join(__dirname, '../client/index.js')).toString();
+        this.fs.writeFileSync(tmpDir, gameEngineFile);
+        let command = 'browserify ' + tmpDir + ' -o ' + tmpDir;
+        this.cp.execSync(command);
+        gameEngineFile = this.fs.readFileSync(tmpDir).toString();
+        let entireString = simpleCryptoData.lib + '\n' + gameKeyVar + '\n' + gameEngineFile + '\n';
+        if (process.env.NODE_END === 'production') {
+            entireString = this.jsObfuscator.obfuscate(entireString, model.Games.scriptOptions).getObfuscatedCode();
+        }
+        this.fs.writeFileSync(dest, COPYRIGHT_DISCLAIMER + '\n' + entireString);
+        this.fs.unlinkSync(tmpDir);
+    }
 }
 exports.default = Games;
-//# sourceMappingURL=Games.js.map

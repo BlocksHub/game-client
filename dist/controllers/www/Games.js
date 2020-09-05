@@ -19,7 +19,11 @@ const model = require("../../models/index");
 const middleware = require("../../middleware/v1");
 const YesAuth = middleware.auth.YesAuth;
 const swagger_1 = require("@tsed/swagger");
+const config_1 = require("../../helpers/config");
 let GamesController = class GamesController extends base_1.default {
+    redirect(res) {
+        res.redirect(302, 'https://www.blockshub.net/');
+    }
     async gamePlay(req, userData, gameId) {
         const baseService = new base_1.default({
             cookie: req.headers['cookie'],
@@ -34,10 +38,13 @@ let GamesController = class GamesController extends base_1.default {
         catch (e) {
             throw new this.BadRequest('InvalidGameId');
         }
-        let gameAuthCode = await baseService.Games.generateGameAuthCode();
+        let authCode = await baseService.Games.generateGameAuthCode();
         let ViewData = new model.WWWTemplate({ 'title': 'Play' });
-        ViewData.page.gameId = gameId;
-        ViewData.page.authCode = gameAuthCode;
+        ViewData.page = {
+            gameId,
+            authCode,
+            clientUrl: config_1.default.clientUrl,
+        };
         return ViewData;
     }
     browserCompatibilityCheck(res) {
@@ -58,8 +65,11 @@ let GamesController = class GamesController extends base_1.default {
         }
         await this.Games.decodeGameAuthCode(authCode);
         let ViewData = new model.WWWTemplate({ 'title': 'Play' });
-        ViewData.page.gameId = gameId;
-        ViewData.page.authCode = authCode;
+        ViewData.page = {
+            gameId,
+            authCode,
+            clientUrl: config_1.default.clientUrl,
+        };
         return ViewData;
     }
     async gameEdit(req, userInfo, gameId) {
@@ -107,7 +117,15 @@ let GamesController = class GamesController extends base_1.default {
     }
 };
 __decorate([
-    common_1.Get('/game/:gameId/play'),
+    common_1.Get('/'),
+    swagger_1.Summary('Redirect to website'),
+    __param(0, common_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], GamesController.prototype, "redirect", null);
+__decorate([
+    common_1.Get('/:gameId/play'),
     swagger_1.Summary('Load game play page'),
     common_1.Use(YesAuth),
     common_1.Render('game'),
@@ -127,7 +145,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], GamesController.prototype, "browserCompatibilityCheck", null);
 __decorate([
-    common_1.Get('/game/:gameId/sandbox'),
+    common_1.Get('/:gameId/sandbox'),
     swagger_1.Summary('Load game play page sandbox'),
     common_1.Use(YesAuth),
     common_1.Render('game_sandbox'),
@@ -141,7 +159,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], GamesController.prototype, "gamePlaySandbox", null);
 __decorate([
-    common_1.Get('/game/:gameId/edit'),
+    common_1.Get('/:gameId/edit'),
     swagger_1.Summary('Game edit page'),
     common_1.Use(YesAuth),
     common_1.Render('game_edit'),
@@ -153,7 +171,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], GamesController.prototype, "gameEdit", null);
 GamesController = __decorate([
-    common_1.Controller('/games')
+    common_1.Controller('/')
 ], GamesController);
 exports.GamesController = GamesController;
-//# sourceMappingURL=Games.js.map
