@@ -12,16 +12,18 @@ import * as morgan from 'morgan';
 // app-specific stuff
 import config from "./helpers/config";
 import requestInterscept from './middleware/Any';
-import {NotFoundMiddleware} from './middleware/ErrorHandle';
+import { NotFoundMiddleware } from './middleware/ErrorHandle';
 // Import games service and setup the client
-console.log('[info] start obfuscating game source');
 import Games from './services/Games';
-new Games().setupGameClient();
-console.log('[info] end obfuscating game source');
+if (process.env.NODE_ENV !== 'production') {
+    console.log('[info] start building game source');
+    new Games().setupGameClient();
+    console.log('[info] end building game source');
+}
 
 const rootDir = __dirname;
 let portToListenOn = config.port || process.env.PORT || 3000;
-console.log('[info] listening on port',portToListenOn);
+console.log('[info] listening on port', portToListenOn);
 @Configuration({
     rootDir,
     mount: {
@@ -80,7 +82,7 @@ export class Server {
 
         if (process.env.NODE_ENV === 'development') {
             // this.app.use(morgan('dev'));
-        }else{
+        } else {
             this.app.use(morgan('tiny'));
         }
     }

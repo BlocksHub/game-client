@@ -17,7 +17,7 @@ export default class Games extends base {
      * @param gameId
      */
     public async getInfo(gameId: number): Promise<model.Games.GameInfo> {
-        const info = await this.v1.get('/game/'+gameId+'/info');
+        const info = await this.v1.get('/game/' + gameId + '/info');
         return info.data;
     }
 
@@ -26,7 +26,7 @@ export default class Games extends base {
      * @param gameId
      */
     public async getGameThumbnail(gameId: number): Promise<model.Games.GameThumbnail> {
-        const info = await this.v1.get('/game/'+gameId+'/thumbnail');
+        const info = await this.v1.get('/game/' + gameId + '/thumbnail');
         return info.data;
     }
 
@@ -35,7 +35,7 @@ export default class Games extends base {
      * @param gameId 
      */
     public async getMapContent(gameId: number): Promise<string> {
-        const map = await this.v1.get('/game/edit-mode/'+gameId+'/map');
+        const map = await this.v1.get('/game/edit-mode/' + gameId + '/map');
         return map.data;
     }
 
@@ -43,8 +43,8 @@ export default class Games extends base {
      * Get unobfuscated game scripts source
      * @param gameId 
      */
-    public async getAllGameScripts(gameId: number): Promise<{scriptId: number; content: string; scriptType: model.Games.ScriptType}[]> {
-        const map = await this.v1.get('/game/edit-mode/'+gameId+'/scripts');
+    public async getAllGameScripts(gameId: number): Promise<{ scriptId: number; content: string; scriptType: model.Games.ScriptType }[]> {
+        const map = await this.v1.get('/game/edit-mode/' + gameId + '/scripts');
         return map.data;
     }
 
@@ -52,8 +52,8 @@ export default class Games extends base {
      * Decode a client game auth code
      * @param code 
      */
-    public async decodeGameAuthCode(code: string): Promise<{userId: number; username: string; iat: number;}> {
-        const data = await this.v1.get('/game/auth/client/decode?code='+encodeURIComponent(code));
+    public async decodeGameAuthCode(code: string): Promise<{ userId: number; username: string; iat: number; }> {
+        const data = await this.v1.get('/game/auth/client/decode?code=' + encodeURIComponent(code));
         return data.data;
     }
 
@@ -76,7 +76,6 @@ export default class Games extends base {
  * Copyright (c) BlocksHub - All Rights Reserved
  * Unauthorized copying of this file, via any medium, is strictly prohibited.
  * You are not allowed to copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software.
- * This software includes various open-source libraries which have licenses provided where relevant and required.
  * View our full terms of service here: https://blockshub.net/terms
  */`;
         let dest = this.path.join(__dirname, '../public/client.js');
@@ -85,18 +84,19 @@ export default class Games extends base {
         let gameKeyVar = `window.GAME_KEY = "${GAME_KEY}"; window.simpleCryptoData = {"name": "${simpleCryptoData.name}"};`;
         let gameEngineFile = this.fs.readFileSync(this.path.join(__dirname, '../client/index.js')).toString();
         this.fs.writeFileSync(tmpDir, gameEngineFile);
-        let command = 'browserify '+tmpDir+' -o '+tmpDir;
+        let command = 'browserify ' + tmpDir + ' -o ' + tmpDir;
         // exec
         this.cp.execSync(command);
         gameEngineFile = this.fs.readFileSync(tmpDir).toString();
-        let entireString = simpleCryptoData.lib+'\n'+gameKeyVar+'\n'+gameEngineFile+'\n';
-        if (process.env.NODE_END === 'production') {
-            entireString = this.jsObfuscator.obfuscate(entireString, model.Games.scriptOptions).getObfuscatedCode();
+        let entireString = simpleCryptoData.lib + '\n' + gameKeyVar + '\n' + gameEngineFile + '\n';
+        if (process.env.NODE_ENV === 'production') {
+            // entireString = this.jsObfuscator.obfuscate(entireString, model.Games.scriptOptions).getObfuscatedCode();
         }
         // write the finalized file
-        this.fs.writeFileSync(dest,  COPYRIGHT_DISCLAIMER+'\n'+entireString);
+        this.fs.writeFileSync(dest, COPYRIGHT_DISCLAIMER + '\n' + entireString);
         // delete the tmp file
         this.fs.unlinkSync(tmpDir);
+        console.log('[info] new game client created');
     }
 
 }

@@ -41,7 +41,6 @@ class Games extends base_1.default {
  * Copyright (c) BlocksHub - All Rights Reserved
  * Unauthorized copying of this file, via any medium, is strictly prohibited.
  * You are not allowed to copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software.
- * This software includes various open-source libraries which have licenses provided where relevant and required.
  * View our full terms of service here: https://blockshub.net/terms
  */`;
         let dest = this.path.join(__dirname, '../public/client.js');
@@ -54,11 +53,11 @@ class Games extends base_1.default {
         this.cp.execSync(command);
         gameEngineFile = this.fs.readFileSync(tmpDir).toString();
         let entireString = simpleCryptoData.lib + '\n' + gameKeyVar + '\n' + gameEngineFile + '\n';
-        if (process.env.NODE_END === 'production') {
-            entireString = this.jsObfuscator.obfuscate(entireString, model.Games.scriptOptions).getObfuscatedCode();
+        if (process.env.NODE_ENV === 'production') {
         }
         this.fs.writeFileSync(dest, COPYRIGHT_DISCLAIMER + '\n' + entireString);
         this.fs.unlinkSync(tmpDir);
+        console.log('[info] new game client created');
     }
 }
 exports.default = Games;

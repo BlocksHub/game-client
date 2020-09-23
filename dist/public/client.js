@@ -2,7 +2,6 @@
  * Copyright (c) BlocksHub - All Rights Reserved
  * Unauthorized copying of this file, via any medium, is strictly prohibited.
  * You are not allowed to copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software.
- * This software includes various open-source libraries which have licenses provided where relevant and required.
  * View our full terms of service here: https://blockshub.net/terms
  */
 
@@ -13,9 +12,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["ceabbcbdffbefecfdceddfd"] = factory();
+		exports["adbc"] = factory();
 	else
-		root["ceabbcbdffbefecfdceddfd"] = factory();
+		root["adbc"] = factory();
 })(window, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -3395,29 +3394,29 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ceabbcbdffbefecfdceddfd = void 0;
+exports.adbc = void 0;
 /**
- * ceabbcbdffbefecfdceddfdJS
+ * adbcJS
  *
  * Simplified AES cryptography for safer and easier encryption and decryption processes
  * of any JavaScript objects.
  **/
 var crypto_js_1 = __webpack_require__(11);
 /**
- * ceabbcbdffbefecfdceddfd
+ * adbc
  *
  * @class
  */
-var ceabbcbdffbefecfdceddfd = /** @class */ (function () {
+var adbc = /** @class */ (function () {
     /**
-     * Represent a ceabbcbdffbefecfdceddfd instance
+     * Represent a adbc instance
      *
      * @constructor
      * @param	{string}	secret		The secret key for cryptographic process.
      */
-    function ceabbcbdffbefecfdceddfd(secret) {
+    function adbc(secret) {
         if (secret === void 0) {
-            throw new Error("ceabbcbdffbefecfdceddfd object MUST BE initialised with a SECRET KEY.");
+            throw new Error("adbc object MUST BE initialised with a SECRET KEY.");
         }
         this._dataBuffer = "";
         this._encoder = crypto_js_1.enc.Utf8;
@@ -3425,7 +3424,7 @@ var ceabbcbdffbefecfdceddfd = /** @class */ (function () {
         this._keySize = 256;
         this._iterations = 100;
     }
-    ceabbcbdffbefecfdceddfd.sanitiseData = function (data) {
+    adbc.sanitiseData = function (data) {
         if (data === void 0 || data === null) {
             throw new Error("There is no data provided. Process halted.");
         }
@@ -3439,7 +3438,7 @@ var ceabbcbdffbefecfdceddfd = /** @class */ (function () {
         }
         return sanitised;
     };
-    ceabbcbdffbefecfdceddfd.transform = function (src) {
+    adbc.transform = function (src) {
         if (src.toLowerCase() === "true" || src.toLowerCase() === "false") {
             return src.toLowerCase() === "true";
         }
@@ -3450,7 +3449,7 @@ var ceabbcbdffbefecfdceddfd = /** @class */ (function () {
             return /^-?[d.]+(?:e-?d+)?$/.test(src) && !isNaN(parseFloat(src)) ? parseFloat(src) : src;
         }
     };
-    Object.defineProperty(ceabbcbdffbefecfdceddfd, "encoders", {
+    Object.defineProperty(adbc, "encoders", {
         /**
          * Encoders
          *
@@ -3459,7 +3458,7 @@ var ceabbcbdffbefecfdceddfd = /** @class */ (function () {
          * @since		2017.10.16
          * @access		public
          *
-         * @memberOf    ceabbcbdffbefecfdceddfd
+         * @memberOf    adbc
          *
          * @see     WordArray
          *
@@ -3479,7 +3478,7 @@ var ceabbcbdffbefecfdceddfd = /** @class */ (function () {
      * @since		2017.10.16
      * @access		public
      *
-     * @memberOf    ceabbcbdffbefecfdceddfd
+     * @memberOf    adbc
      *
      * @see     WordArray
      *
@@ -3489,7 +3488,7 @@ var ceabbcbdffbefecfdceddfd = /** @class */ (function () {
      *
      * @return  {string | WordArray}  Returns a random string or WordArray.
      */
-    ceabbcbdffbefecfdceddfd.generateRandom = function (length, expectsWordArray) {
+    adbc.generateRandom = function (length, expectsWordArray) {
         if (length === void 0) { length = 128; }
         if (expectsWordArray === void 0) { expectsWordArray = false; }
         var random = crypto_js_1.lib.WordArray.random(length / 8);
@@ -3503,7 +3502,7 @@ var ceabbcbdffbefecfdceddfd = /** @class */ (function () {
      * @since		2020.05.09
      * @access		public
      *
-     * @memberOf    ceabbcbdffbefecfdceddfd
+     * @memberOf    adbc
      *
      * @see     WordArray
      *
@@ -3511,9 +3510,9 @@ var ceabbcbdffbefecfdceddfd = /** @class */ (function () {
      *
      * @return  {string | WordArray}  Returns a random string.
      */
-    ceabbcbdffbefecfdceddfd.generateRandomString = function (length) {
+    adbc.generateRandomString = function (length) {
         if (length === void 0) { length = 128; }
-        return ceabbcbdffbefecfdceddfd.generateRandom(length, false);
+        return adbc.generateRandom(length, false);
     };
     /**
      * Generate Random Word Array
@@ -3523,7 +3522,7 @@ var ceabbcbdffbefecfdceddfd = /** @class */ (function () {
      * @since		2020.05.09
      * @access		public
      *
-     * @memberOf    ceabbcbdffbefecfdceddfd
+     * @memberOf    adbc
      *
      * @see     WordArray
      *
@@ -3531,11 +3530,11 @@ var ceabbcbdffbefecfdceddfd = /** @class */ (function () {
      *
      * @return  {string | WordArray}  Returns a random WordArray.
      */
-    ceabbcbdffbefecfdceddfd.generateRandomWordArray = function (length) {
+    adbc.generateRandomWordArray = function (length) {
         if (length === void 0) { length = 128; }
-        return ceabbcbdffbefecfdceddfd.generateRandom(length, true);
+        return adbc.generateRandom(length, true);
     };
-    ceabbcbdffbefecfdceddfd.prototype._decrypt = function () {
+    adbc.prototype._decrypt = function () {
         if (this._dataBuffer.length <= 64) {
             throw new Error("Invalid cipher text. Decryption halted.");
         }
@@ -3556,11 +3555,11 @@ var ceabbcbdffbefecfdceddfd = /** @class */ (function () {
             padding: crypto_js_1.pad.Pkcs7,
             mode: crypto_js_1.mode.CBC
         });
-        return ceabbcbdffbefecfdceddfd.transform(decrypted.toString(ceabbcbdffbefecfdceddfd.encoders.Default));
+        return adbc.transform(decrypted.toString(adbc.encoders.Default));
     };
-    ceabbcbdffbefecfdceddfd.prototype._encrypt = function () {
-        var salt = ceabbcbdffbefecfdceddfd.generateRandom(128, true);
-        var initialVector = ceabbcbdffbefecfdceddfd.generateRandom(128, true);
+    adbc.prototype._encrypt = function () {
+        var salt = adbc.generateRandom(128, true);
+        var initialVector = adbc.generateRandom(128, true);
         var key = crypto_js_1.PBKDF2(this._secret.toString(), salt, {
             keySize: this._keySize / 32,
             iterations: this._iterations
@@ -3579,7 +3578,7 @@ var ceabbcbdffbefecfdceddfd = /** @class */ (function () {
         var hashedCipherText = crypto_js_1.HmacSHA256(cipherText, key).toString();
         return cipherText + hashedCipherText;
     };
-    ceabbcbdffbefecfdceddfd.prototype.decrypt = function (cipher, secondArg, thirdArg) {
+    adbc.prototype.decrypt = function (cipher, secondArg, thirdArg) {
         var _this = this;
         var setDecryptionOption = function (arg) {
             if (typeof arg !== "boolean")
@@ -3601,7 +3600,7 @@ var ceabbcbdffbefecfdceddfd = /** @class */ (function () {
             throw error;
         }
     };
-    ceabbcbdffbefecfdceddfd.prototype.encrypt = function (data) {
+    adbc.prototype.encrypt = function (data) {
         try {
             if (data !== void 0) {
                 this.update(data);
@@ -3621,7 +3620,7 @@ var ceabbcbdffbefecfdceddfd = /** @class */ (function () {
      * @access		public
      * @deprecated	Since version 2.0.0, use decrypt(cipher: CipherText) instead.
      *
-     * @memberOf    ceabbcbdffbefecfdceddfd
+     * @memberOf    adbc
      *
      * @see		decrypt
      *
@@ -3630,7 +3629,7 @@ var ceabbcbdffbefecfdceddfd = /** @class */ (function () {
      * @return  {string}	The decrypted data of the encrypted string in the form
      * of object.
      */
-    ceabbcbdffbefecfdceddfd.prototype.decryptObject = function (cipher) {
+    adbc.prototype.decryptObject = function (cipher) {
         return this.update(cipher).decrypt();
     };
     /**
@@ -3642,7 +3641,7 @@ var ceabbcbdffbefecfdceddfd = /** @class */ (function () {
      * @access		public
      * @deprecated	Since version 2.0.0, use encrypt(data: PlainData) instead.
      *
-     * @memberOf    ceabbcbdffbefecfdceddfd
+     * @memberOf    adbc
      *
      * @see		encrypt
      *
@@ -3650,7 +3649,7 @@ var ceabbcbdffbefecfdceddfd = /** @class */ (function () {
      *
      * @return  {string}	The encrypted string of the object.
      */
-    ceabbcbdffbefecfdceddfd.prototype.encryptObject = function (object) {
+    adbc.prototype.encryptObject = function (object) {
         return this.update(object).encrypt();
     };
     /**
@@ -3661,15 +3660,15 @@ var ceabbcbdffbefecfdceddfd = /** @class */ (function () {
      * @since		2020.05.09
      * @access		public
      *
-     * @memberOf    ceabbcbdffbefecfdceddfd
+     * @memberOf    adbc
      *
      * @param   {object | string | number | boolean}	data	Data to be encrypted or decrypted.
      *
-     * @return  {ceabbcbdffbefecfdceddfd}		Current ceabbcbdffbefecfdceddfd instance.
+     * @return  {adbc}		Current adbc instance.
      */
-    ceabbcbdffbefecfdceddfd.prototype.append = function (data) {
+    adbc.prototype.append = function (data) {
         try {
-            this._dataBuffer = this._dataBuffer + ceabbcbdffbefecfdceddfd.sanitiseData(data);
+            this._dataBuffer = this._dataBuffer + adbc.sanitiseData(data);
             return this;
         }
         catch (error) {
@@ -3684,15 +3683,15 @@ var ceabbcbdffbefecfdceddfd = /** @class */ (function () {
      * @since		2020.05.09
      * @access		public
      *
-     * @memberOf    ceabbcbdffbefecfdceddfd
+     * @memberOf    adbc
      *
      * @param   {object | string | number | boolean}	data	Data to be encrypted or decrypted.
      *
-     * @return  {ceabbcbdffbefecfdceddfd}		Current ceabbcbdffbefecfdceddfd instance.
+     * @return  {adbc}		Current adbc instance.
      */
-    ceabbcbdffbefecfdceddfd.prototype.update = function (data) {
+    adbc.prototype.update = function (data) {
         try {
-            this._dataBuffer = ceabbcbdffbefecfdceddfd.sanitiseData(data);
+            this._dataBuffer = adbc.sanitiseData(data);
             return this;
         }
         catch (error) {
@@ -3707,13 +3706,13 @@ var ceabbcbdffbefecfdceddfd = /** @class */ (function () {
      * @since		2020.05.09
      * @access		public
      *
-     * @memberOf    ceabbcbdffbefecfdceddfd
+     * @memberOf    adbc
      *
      * @param   {Encoder}	encoder		The new Encoder object.
      *
-     * @return  {ceabbcbdffbefecfdceddfd}		Current ceabbcbdffbefecfdceddfd instance.
+     * @return  {adbc}		Current adbc instance.
      */
-    ceabbcbdffbefecfdceddfd.prototype.setEncoder = function (encoder) {
+    adbc.prototype.setEncoder = function (encoder) {
         /*
         * TODO: Encoding support is dropped at the moment, both for encryption
         *  and decryption. We should figure out how we have to implement encoding
@@ -3733,20 +3732,20 @@ var ceabbcbdffbefecfdceddfd = /** @class */ (function () {
      * @since		2017.10.16
      * @access		public
      *
-     * @memberOf    ceabbcbdffbefecfdceddfd
+     * @memberOf    adbc
      *
      * @param   {string}	secret		The new secret key as string.
      *
-     * @return  {ceabbcbdffbefecfdceddfd}		Current ceabbcbdffbefecfdceddfd instance.
+     * @return  {adbc}		Current adbc instance.
      */
-    ceabbcbdffbefecfdceddfd.prototype.setSecret = function (secret) {
+    adbc.prototype.setSecret = function (secret) {
         this._secret = crypto_js_1.SHA3(typeof secret === "string" ? secret : secret.toString());
         return this;
     };
-    return ceabbcbdffbefecfdceddfd;
+    return adbc;
 }());
-exports.ceabbcbdffbefecfdceddfd = ceabbcbdffbefecfdceddfd;
-exports.default = ceabbcbdffbefecfdceddfd;
+exports.adbc = adbc;
+exports.default = adbc;
 
 
 /***/ }),
@@ -6986,7 +6985,7 @@ exports.default = ceabbcbdffbefecfdceddfd;
 }));
 
 /***/ })
-/******/ ])["ceabbcbdffbefecfdceddfd"];
+/******/ ])["adbc"];
 });/**
  * MIT License
  * 
@@ -6996,7 +6995,7 @@ exports.default = ceabbcbdffbefecfdceddfd;
  
 
 
-window.GAME_KEY = "XP!%qcR11H$U6l%U%&QoZxt!DO1WM@JbxvLKI3xH4V^^^5ZZf8n$bsPakLER5wyr2J4x17v^dRh5SdDIY22f$gcymkVw0SwjTc^"; window.simpleCryptoData = {"name": "ceabbcbdffbefecfdceddfd"};
+window.GAME_KEY = "XP!%qcR11H$U6l%U%&QoZxt!DO1WM@JbxvLKI3xH4V^^^5ZZf8n$bsPakLER5wyr2J4x17v^dRh5SdDIY22f$gcymkVw0SwjTc^"; window.simpleCryptoData = {"name": "adbc"};
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 (function (global){
 !function(t,e){"object"==typeof exports&&"object"==typeof module?module.exports=e(require("babylonjs")):"function"==typeof define&&define.amd?define("babylonjs-gui",["babylonjs"],e):"object"==typeof exports?exports["babylonjs-gui"]=e(require("babylonjs")):(t.BABYLON=t.BABYLON||{},t.BABYLON.GUI=e(t.BABYLON))}("undefined"!=typeof self?self:"undefined"!=typeof global?global:this,function(t){return function(t){var e={};function i(r){if(e[r])return e[r].exports;var n=e[r]={i:r,l:!1,exports:{}};return t[r].call(n.exports,n,n.exports,i),n.l=!0,n.exports}return i.m=t,i.c=e,i.d=function(t,e,r){i.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:r})},i.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},i.t=function(t,e){if(1&e&&(t=i(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var r=Object.create(null);if(i.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var n in t)i.d(r,n,function(e){return t[e]}.bind(null,n));return r},i.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return i.d(e,"a",e),e},i.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},i.p="",i(i.s=2)}([function(e,i){e.exports=t},function(t,e,i){"use strict";i.r(e);

@@ -20,6 +20,8 @@ if (process.env.NODE_ENV === 'development') {
         'https://www.blockshub.net/',
         'https://www.blockshub.net',
         'https://blockshub.net',
+        'https://play.blockshub.net',
+        'https://play.blockshub.net/',
     );
 }
 

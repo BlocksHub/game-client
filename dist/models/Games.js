@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === 'development') {
     allowedDomains.push('http://localhost/', 'http://localhost:3000/', 'http://localhost', 'http://localhost:3000');
 }
 else {
-    allowedDomains.push('https://blockshub.net/', 'https://www.blockshub.net/', 'https://www.blockshub.net', 'https://blockshub.net');
+    allowedDomains.push('https://blockshub.net/', 'https://www.blockshub.net/', 'https://www.blockshub.net', 'https://blockshub.net', 'https://play.blockshub.net', 'https://play.blockshub.net/');
 }
 exports.scriptOptions = {
     transformObjectKeys: true,

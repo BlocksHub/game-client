@@ -2,7 +2,7 @@
  * The purpose of this middleware is to set relevant res.locals, and to set relevant headers (content-security-policy mostly)
  */
 
-import {Request, Response, NextFunction} from 'express';
+import { Request, Response, NextFunction } from 'express';
 import crypto = require('crypto');
 import os = require('os');
 import util = require('util');
@@ -31,7 +31,7 @@ export const csp = {
     'media-src': `'none'`,
     'frame-ancestors': `'self'`,
     'img-src': `'self' https://assets.babylonjs.com/ blob: data: https://cdn.blockshub.net/ https://hindigamerclub-game.ewr1.vultrobjects.com/ https://www.google-analytics.com/`,
-    'connect-src': `'self' ws://localhost:8080/ https://sentry.io/ https://ka-f.fontawesome.com/releases/v5.13.1/css/free.min.css https://assets.babylonjs.com/ ${config.baseUrl.backend} ${config.baseUrl.cdn}`,
+    'connect-src': `'self' ws://localhost:8080/ https://www.blockshub.net https://sentry.io/ https://ka-f.fontawesome.com/releases/v5.13.1/css/free.min.css https://assets.babylonjs.com/ ${config.baseUrl.backend} ${config.baseUrl.cdn}`,
     'object-src': `'none'`,
     'base-uri': `'self'`,
 } as any;
@@ -55,11 +55,11 @@ export const version = crypto.randomBytes(8).toString('hex');
  */
 export const generateCspWithNonce = async (req: Request, res: Response, next: NextFunction, randomBytesFunction = randomBytes): Promise<void> => {
     res.set({
-        'x-lb-origin':lbOrigin,
+        'x-lb-origin': lbOrigin,
     })
     res.locals['x-lb-origin'] = lbOrigin;
     // temp
-    if (process.env.NODE_ENV === 'development'  && !req.headers['cf-connecting-ip']) {
+    if (process.env.NODE_ENV === 'development' && !req.headers['cf-connecting-ip']) {
         req.headers['cf-connecting-ip'] = '127.0.0.1';
     }
     if (req.url === '/docs' || req.url === '/docs/') {
@@ -76,7 +76,7 @@ export const generateCspWithNonce = async (req: Request, res: Response, next: Ne
         // 'X-HostName': hostName,
         'X-Permitted-Cross-Domain-Policies': 'none',
     });
-    if (req.url.slice(0,'/api/'.length) === '/api/') {
+    if (req.url.slice(0, '/api/'.length) === '/api/') {
         return next();
     }
     const nonceBuffer = await randomBytesFunction(48);
@@ -85,10 +85,10 @@ export const generateCspWithNonce = async (req: Request, res: Response, next: Ne
     let headerString;
     if (req.originalUrl.match(/\/(\d+)\/sandbox/g)) {
         headerString = 'script-src \'nonce-' + nonce + '\' ' + "'unsafe-eval'; " + getCspString();
-    }else{
+    } else {
         headerString = 'script-src \'nonce-' + nonce + '\'; ' + getCspString();
     }
-    if (req.url.slice(0,'/v1/authenticate-to-service'.length) === '/v1/authenticate-to-service') {
+    if (req.url.slice(0, '/v1/authenticate-to-service'.length) === '/v1/authenticate-to-service') {
         headerString = headerString.replace(/form-action 'self'; /g, '');
     }
     res.set({
@@ -109,7 +109,7 @@ export const getIp = (req: Request): string => {
     const cloudflareIP = req.get('cf-connecting-ip');
     if (cloudflareIP) {
         return cloudflareIP;
-    }else{
+    } else {
         if (!req.connection.remoteAddress) {
             return '127.0.0.1';
         }
@@ -128,7 +128,7 @@ export const getJavascript = (nonce: string, version: string): string => {
         <script nonce="${nonce}" src="/js/bundle/bootstrap.bundle.js?v=${version}"></script>`;
 }
 
-export default async (req: {session: any} & Request, res: Response, next: NextFunction): Promise<void> => {
+export default async (req: { session: any } & Request, res: Response, next: NextFunction): Promise<void> => {
     let doSkip = false;
     await generateCspWithNonce(req, res, () => {
 
@@ -139,7 +139,7 @@ export default async (req: {session: any} & Request, res: Response, next: NextFu
         }
     }
     // dev stuff
-    if (req.url.slice(0,4) === '/js/' || req.url.slice(0,5) === '/css/') {
+    if (req.url.slice(0, 4) === '/js/' || req.url.slice(0, 5) === '/css/') {
         return next();
     }
     // Setup IP
@@ -151,13 +151,13 @@ export default async (req: {session: any} & Request, res: Response, next: NextFu
     // Check if authenticated
     try {
         const newUserInfo = await baseService.Users.getAuthenticatedUserInfo();
-        console.log('[info] user is logged in. info',newUserInfo);
+        console.log('[info] user is logged in. info', newUserInfo);
         res.locals.userInfo = newUserInfo as UserSession;
-    }catch(err) {
+    } catch (err) {
         if (err.isAxiosError && err.response && err.response.status === 401) {
             // Ignore
             console.log('[info] user is not logged in');
-        }else{
+        } else {
             return next(err);
         }
     }
