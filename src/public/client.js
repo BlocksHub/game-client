@@ -12,9 +12,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["adbc"] = factory();
+		exports["ec"] = factory();
 	else
-		root["adbc"] = factory();
+		root["ec"] = factory();
 })(window, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -3394,29 +3394,29 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.adbc = void 0;
+exports.ec = void 0;
 /**
- * adbcJS
+ * ecJS
  *
  * Simplified AES cryptography for safer and easier encryption and decryption processes
  * of any JavaScript objects.
  **/
 var crypto_js_1 = __webpack_require__(11);
 /**
- * adbc
+ * ec
  *
  * @class
  */
-var adbc = /** @class */ (function () {
+var ec = /** @class */ (function () {
     /**
-     * Represent a adbc instance
+     * Represent a ec instance
      *
      * @constructor
      * @param	{string}	secret		The secret key for cryptographic process.
      */
-    function adbc(secret) {
+    function ec(secret) {
         if (secret === void 0) {
-            throw new Error("adbc object MUST BE initialised with a SECRET KEY.");
+            throw new Error("ec object MUST BE initialised with a SECRET KEY.");
         }
         this._dataBuffer = "";
         this._encoder = crypto_js_1.enc.Utf8;
@@ -3424,7 +3424,7 @@ var adbc = /** @class */ (function () {
         this._keySize = 256;
         this._iterations = 100;
     }
-    adbc.sanitiseData = function (data) {
+    ec.sanitiseData = function (data) {
         if (data === void 0 || data === null) {
             throw new Error("There is no data provided. Process halted.");
         }
@@ -3438,7 +3438,7 @@ var adbc = /** @class */ (function () {
         }
         return sanitised;
     };
-    adbc.transform = function (src) {
+    ec.transform = function (src) {
         if (src.toLowerCase() === "true" || src.toLowerCase() === "false") {
             return src.toLowerCase() === "true";
         }
@@ -3449,7 +3449,7 @@ var adbc = /** @class */ (function () {
             return /^-?[d.]+(?:e-?d+)?$/.test(src) && !isNaN(parseFloat(src)) ? parseFloat(src) : src;
         }
     };
-    Object.defineProperty(adbc, "encoders", {
+    Object.defineProperty(ec, "encoders", {
         /**
          * Encoders
          *
@@ -3458,7 +3458,7 @@ var adbc = /** @class */ (function () {
          * @since		2017.10.16
          * @access		public
          *
-         * @memberOf    adbc
+         * @memberOf    ec
          *
          * @see     WordArray
          *
@@ -3478,7 +3478,7 @@ var adbc = /** @class */ (function () {
      * @since		2017.10.16
      * @access		public
      *
-     * @memberOf    adbc
+     * @memberOf    ec
      *
      * @see     WordArray
      *
@@ -3488,7 +3488,7 @@ var adbc = /** @class */ (function () {
      *
      * @return  {string | WordArray}  Returns a random string or WordArray.
      */
-    adbc.generateRandom = function (length, expectsWordArray) {
+    ec.generateRandom = function (length, expectsWordArray) {
         if (length === void 0) { length = 128; }
         if (expectsWordArray === void 0) { expectsWordArray = false; }
         var random = crypto_js_1.lib.WordArray.random(length / 8);
@@ -3502,7 +3502,7 @@ var adbc = /** @class */ (function () {
      * @since		2020.05.09
      * @access		public
      *
-     * @memberOf    adbc
+     * @memberOf    ec
      *
      * @see     WordArray
      *
@@ -3510,9 +3510,9 @@ var adbc = /** @class */ (function () {
      *
      * @return  {string | WordArray}  Returns a random string.
      */
-    adbc.generateRandomString = function (length) {
+    ec.generateRandomString = function (length) {
         if (length === void 0) { length = 128; }
-        return adbc.generateRandom(length, false);
+        return ec.generateRandom(length, false);
     };
     /**
      * Generate Random Word Array
@@ -3522,7 +3522,7 @@ var adbc = /** @class */ (function () {
      * @since		2020.05.09
      * @access		public
      *
-     * @memberOf    adbc
+     * @memberOf    ec
      *
      * @see     WordArray
      *
@@ -3530,11 +3530,11 @@ var adbc = /** @class */ (function () {
      *
      * @return  {string | WordArray}  Returns a random WordArray.
      */
-    adbc.generateRandomWordArray = function (length) {
+    ec.generateRandomWordArray = function (length) {
         if (length === void 0) { length = 128; }
-        return adbc.generateRandom(length, true);
+        return ec.generateRandom(length, true);
     };
-    adbc.prototype._decrypt = function () {
+    ec.prototype._decrypt = function () {
         if (this._dataBuffer.length <= 64) {
             throw new Error("Invalid cipher text. Decryption halted.");
         }
@@ -3555,11 +3555,11 @@ var adbc = /** @class */ (function () {
             padding: crypto_js_1.pad.Pkcs7,
             mode: crypto_js_1.mode.CBC
         });
-        return adbc.transform(decrypted.toString(adbc.encoders.Default));
+        return ec.transform(decrypted.toString(ec.encoders.Default));
     };
-    adbc.prototype._encrypt = function () {
-        var salt = adbc.generateRandom(128, true);
-        var initialVector = adbc.generateRandom(128, true);
+    ec.prototype._encrypt = function () {
+        var salt = ec.generateRandom(128, true);
+        var initialVector = ec.generateRandom(128, true);
         var key = crypto_js_1.PBKDF2(this._secret.toString(), salt, {
             keySize: this._keySize / 32,
             iterations: this._iterations
@@ -3578,7 +3578,7 @@ var adbc = /** @class */ (function () {
         var hashedCipherText = crypto_js_1.HmacSHA256(cipherText, key).toString();
         return cipherText + hashedCipherText;
     };
-    adbc.prototype.decrypt = function (cipher, secondArg, thirdArg) {
+    ec.prototype.decrypt = function (cipher, secondArg, thirdArg) {
         var _this = this;
         var setDecryptionOption = function (arg) {
             if (typeof arg !== "boolean")
@@ -3600,7 +3600,7 @@ var adbc = /** @class */ (function () {
             throw error;
         }
     };
-    adbc.prototype.encrypt = function (data) {
+    ec.prototype.encrypt = function (data) {
         try {
             if (data !== void 0) {
                 this.update(data);
@@ -3620,7 +3620,7 @@ var adbc = /** @class */ (function () {
      * @access		public
      * @deprecated	Since version 2.0.0, use decrypt(cipher: CipherText) instead.
      *
-     * @memberOf    adbc
+     * @memberOf    ec
      *
      * @see		decrypt
      *
@@ -3629,7 +3629,7 @@ var adbc = /** @class */ (function () {
      * @return  {string}	The decrypted data of the encrypted string in the form
      * of object.
      */
-    adbc.prototype.decryptObject = function (cipher) {
+    ec.prototype.decryptObject = function (cipher) {
         return this.update(cipher).decrypt();
     };
     /**
@@ -3641,7 +3641,7 @@ var adbc = /** @class */ (function () {
      * @access		public
      * @deprecated	Since version 2.0.0, use encrypt(data: PlainData) instead.
      *
-     * @memberOf    adbc
+     * @memberOf    ec
      *
      * @see		encrypt
      *
@@ -3649,7 +3649,7 @@ var adbc = /** @class */ (function () {
      *
      * @return  {string}	The encrypted string of the object.
      */
-    adbc.prototype.encryptObject = function (object) {
+    ec.prototype.encryptObject = function (object) {
         return this.update(object).encrypt();
     };
     /**
@@ -3660,15 +3660,15 @@ var adbc = /** @class */ (function () {
      * @since		2020.05.09
      * @access		public
      *
-     * @memberOf    adbc
+     * @memberOf    ec
      *
      * @param   {object | string | number | boolean}	data	Data to be encrypted or decrypted.
      *
-     * @return  {adbc}		Current adbc instance.
+     * @return  {ec}		Current ec instance.
      */
-    adbc.prototype.append = function (data) {
+    ec.prototype.append = function (data) {
         try {
-            this._dataBuffer = this._dataBuffer + adbc.sanitiseData(data);
+            this._dataBuffer = this._dataBuffer + ec.sanitiseData(data);
             return this;
         }
         catch (error) {
@@ -3683,15 +3683,15 @@ var adbc = /** @class */ (function () {
      * @since		2020.05.09
      * @access		public
      *
-     * @memberOf    adbc
+     * @memberOf    ec
      *
      * @param   {object | string | number | boolean}	data	Data to be encrypted or decrypted.
      *
-     * @return  {adbc}		Current adbc instance.
+     * @return  {ec}		Current ec instance.
      */
-    adbc.prototype.update = function (data) {
+    ec.prototype.update = function (data) {
         try {
-            this._dataBuffer = adbc.sanitiseData(data);
+            this._dataBuffer = ec.sanitiseData(data);
             return this;
         }
         catch (error) {
@@ -3706,13 +3706,13 @@ var adbc = /** @class */ (function () {
      * @since		2020.05.09
      * @access		public
      *
-     * @memberOf    adbc
+     * @memberOf    ec
      *
      * @param   {Encoder}	encoder		The new Encoder object.
      *
-     * @return  {adbc}		Current adbc instance.
+     * @return  {ec}		Current ec instance.
      */
-    adbc.prototype.setEncoder = function (encoder) {
+    ec.prototype.setEncoder = function (encoder) {
         /*
         * TODO: Encoding support is dropped at the moment, both for encryption
         *  and decryption. We should figure out how we have to implement encoding
@@ -3732,20 +3732,20 @@ var adbc = /** @class */ (function () {
      * @since		2017.10.16
      * @access		public
      *
-     * @memberOf    adbc
+     * @memberOf    ec
      *
      * @param   {string}	secret		The new secret key as string.
      *
-     * @return  {adbc}		Current adbc instance.
+     * @return  {ec}		Current ec instance.
      */
-    adbc.prototype.setSecret = function (secret) {
+    ec.prototype.setSecret = function (secret) {
         this._secret = crypto_js_1.SHA3(typeof secret === "string" ? secret : secret.toString());
         return this;
     };
-    return adbc;
+    return ec;
 }());
-exports.adbc = adbc;
-exports.default = adbc;
+exports.ec = ec;
+exports.default = ec;
 
 
 /***/ }),
@@ -6985,7 +6985,7 @@ exports.default = adbc;
 }));
 
 /***/ })
-/******/ ])["adbc"];
+/******/ ])["ec"];
 });/**
  * MIT License
  * 
@@ -6995,7 +6995,7 @@ exports.default = adbc;
  
 
 
-window.GAME_KEY = "XP!%qcR11H$U6l%U%&QoZxt!DO1WM@JbxvLKI3xH4V^^^5ZZf8n$bsPakLER5wyr2J4x17v^dRh5SdDIY22f$gcymkVw0SwjTc^"; window.simpleCryptoData = {"name": "adbc"};
+window.GAME_KEY = "XP!%qcR11H$U6l%U%&QoZxt!DO1WM@JbxvLKI3xH4V^^^5ZZf8n$bsPakLER5wyr2J4x17v^dRh5SdDIY22f$gcymkVw0SwjTc^"; window.simpleCryptoData = {"name": "ec"};
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 (function (global){
 !function(t,e){"object"==typeof exports&&"object"==typeof module?module.exports=e(require("babylonjs")):"function"==typeof define&&define.amd?define("babylonjs-gui",["babylonjs"],e):"object"==typeof exports?exports["babylonjs-gui"]=e(require("babylonjs")):(t.BABYLON=t.BABYLON||{},t.BABYLON.GUI=e(t.BABYLON))}("undefined"!=typeof self?self:"undefined"!=typeof global?global:this,function(t){return function(t){var e={};function i(r){if(e[r])return e[r].exports;var n=e[r]={i:r,l:!1,exports:{}};return t[r].call(n.exports,n,n.exports,i),n.l=!0,n.exports}return i.m=t,i.c=e,i.d=function(t,e,r){i.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:r})},i.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},i.t=function(t,e){if(1&e&&(t=i(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var r=Object.create(null);if(i.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var n in t)i.d(r,n,function(e){return t[e]}.bind(null,n));return r},i.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return i.d(e,"a",e),e},i.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},i.p="",i(i.s=2)}([function(e,i){e.exports=t},function(t,e,i){"use strict";i.r(e);
